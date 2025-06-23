@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { WaffleVideo } from '@/types';
 import { mockFriends } from '@/data/mockData';
-import { Heart, MessageCircle } from 'lucide-react-native';
+import { MessageCircle } from 'lucide-react-native';
+import { router } from 'expo-router';
 
 interface WaffleCardProps {
   video: WaffleVideo;
@@ -13,8 +14,12 @@ export default function WaffleCard({ video, onPlay }: WaffleCardProps) {
   const sender = mockFriends.find(f => f.id === video.sender);
   const timeAgo = getTimeAgo(video.timestamp);
 
+  const handlePress = () => {
+    router.push({ pathname: '/reply', params: { videoId: video.id } });
+  };
+
   return (
-    <TouchableOpacity style={styles.container} onPress={() => onPlay(video)}>
+    <TouchableOpacity style={styles.container} onPress={handlePress}>
       <View style={styles.header}>
         <Image source={{ uri: sender?.avatar }} style={styles.avatar} />
         <View style={styles.userInfo}>
@@ -34,10 +39,6 @@ export default function WaffleCard({ video, onPlay }: WaffleCardProps) {
       <Text style={styles.prompt}>{video.prompt}</Text>
       
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.actionButton}>
-          <Heart size={20} color="#FF6B6B" />
-          <Text style={styles.actionText}>{video.reactions.length}</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.actionButton}>
           <MessageCircle size={20} color="#1B365D" />
           <Text style={styles.actionText}>Reply</Text>

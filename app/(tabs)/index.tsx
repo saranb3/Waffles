@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import GroupSelector from '@/components/GroupSelector';
 import WaffleCard from '@/components/WaffleCard';
 import { mockGroups, mockVideos } from '@/data/mockData';
@@ -7,10 +7,18 @@ import { WaffleVideo } from '@/types';
 
 export default function HomeScreen() {
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
+  const [feedType, setFeedType] = useState<'group' | '1on1'>('group');
 
-  const filteredVideos = selectedGroupId 
+  // Filter groups by feedType
+  const filteredGroups = mockGroups.filter(group => group.type === feedType);
+
+  // Filter videos by selected group and feedType
+  const filteredVideos = selectedGroupId
     ? mockVideos.filter(video => video.groupId === selectedGroupId)
-    : mockVideos;
+    : mockVideos.filter(video => {
+        const group = mockGroups.find(g => g.id === video.groupId);
+        return group && group.type === feedType;
+      });
 
   const handlePlayVideo = (video: WaffleVideo) => {
     // TODO: Implement video player
@@ -23,10 +31,31 @@ export default function HomeScreen() {
         <Text style={styles.title}>🧇</Text>
         <Text style={styles.subtitle}>Your Waffle Friends</Text>
         <Text style={styles.description}>Send a waffle to brighten someone's day</Text>
+        {/* Toggle for feed type */}
+        <View style={styles.toggleContainer}>
+          <TouchableOpacity
+            style={[styles.toggleButton, feedType === 'group' && styles.toggleButtonActive]}
+            onPress={() => {
+              setFeedType('group');
+              setSelectedGroupId(null);
+            }}
+          >
+            <Text style={[styles.toggleText, feedType === 'group' && styles.toggleTextActive]}>Group Chats</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.toggleButton, feedType === '1on1' && styles.toggleButtonActive]}
+            onPress={() => {
+              setFeedType('1on1');
+              setSelectedGroupId(null);
+            }}
+          >
+            <Text style={[styles.toggleText, feedType === '1on1' && styles.toggleTextActive]}>1-on-1</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <GroupSelector
-        groups={mockGroups}
+        groups={filteredGroups}
         selectedGroupId={selectedGroupId}
         onSelectGroup={setSelectedGroupId}
       />
@@ -103,5 +132,30 @@ const styles = StyleSheet.create({
     color: '#8B7355',
     textAlign: 'center',
     lineHeight: 22,
+  },
+  toggleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 12,
+    marginBottom: 4,
+    gap: 8,
+  },
+  toggleButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 18,
+    borderRadius: 20,
+    backgroundColor: '#F3E5AB',
+  },
+  toggleButtonActive: {
+    backgroundColor: '#FFD700',
+  },
+  toggleText: {
+    fontSize: 15,
+    color: '#8B7355',
+    fontFamily: 'Quicksand-SemiBold',
+  },
+  toggleTextActive: {
+    color: '#1B365D',
   },
 });
