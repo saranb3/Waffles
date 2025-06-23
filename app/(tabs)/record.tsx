@@ -1,11 +1,52 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { router } from 'expo-router';
+import Video from 'expo-video';
 
 export default function RecordScreen() {
   const handleStartRecording = () => {
     router.push('/prompts');
   };
+
+  const [showReplay, setShowReplay] = React.useState(false);
+  const [recordedVideoUri, setRecordedVideoUri] = React.useState(null);
+  const [retakeCount, setRetakeCount] = React.useState(0);
+
+  const handleRetake = () => {
+    // Implement retake logic
+  };
+
+  const handleSend = () => {
+    // Implement send logic
+  };
+
+  if (showReplay && recordedVideoUri) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.replayContainer}>
+          <Text style={styles.retakeCounter}>Takes left: {2 - retakeCount}</Text>
+          <Video
+            source={{ uri: recordedVideoUri }}
+            style={styles.replayVideo}
+            useNativeControls
+            resizeMode="contain"
+            isLooping
+            shouldPlay
+          />
+          <View style={styles.replayButtons}>
+            {retakeCount < 1 && (
+              <TouchableOpacity style={styles.retakeButton} onPress={handleRetake}>
+                <Text style={styles.retakeButtonText}>Retake</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
+              <Text style={styles.sendButtonText}>Send</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,6 +66,7 @@ export default function RecordScreen() {
           <Text style={styles.tip}>• Find good lighting</Text>
           <Text style={styles.tip}>• Speak clearly</Text>
           <Text style={styles.tip}>• Be yourself and have fun!</Text>
+          <Text style={styles.tip}>• Only two takes!</Text>
           <Text style={styles.tip}>• Remember: 30 seconds max</Text>
         </View>
       </View>
@@ -93,5 +135,58 @@ const styles = StyleSheet.create({
     fontFamily: 'Quicksand-Regular',
     color: '#8B7355',
     marginBottom: 6,
+  },
+  replayContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  replayVideo: {
+    width: '100%',
+    height: '50%',
+  },
+  replayButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  retakeButton: {
+    backgroundColor: '#FFD700',
+    paddingHorizontal: 40,
+    paddingVertical: 16,
+    borderRadius: 25,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  retakeButtonText: {
+    fontSize: 18,
+    fontFamily: 'Quicksand-SemiBold',
+    color: '#1B365D',
+  },
+  sendButton: {
+    backgroundColor: '#FFD700',
+    paddingHorizontal: 40,
+    paddingVertical: 16,
+    borderRadius: 25,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  sendButtonText: {
+    fontSize: 18,
+    fontFamily: 'Quicksand-SemiBold',
+    color: '#1B365D',
+  },
+  retakeCounter: {
+    fontSize: 16,
+    fontFamily: 'Quicksand-SemiBold',
+    color: '#1B365D',
+    marginBottom: 20,
   },
 });
