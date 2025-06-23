@@ -11,6 +11,8 @@ import {
   Quicksand_700Bold
 } from '@expo-google-fonts/quicksand';
 import { SplashScreen } from 'expo-router';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { PaperProvider } from 'react-native-paper';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -35,16 +37,18 @@ export default function RootLayout() {
   }
 
   return (
-    <>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="prompts" options={{ headerShown: false }} />
-        <Stack.Screen name="recording" options={{ headerShown: false }} />
-        <Stack.Screen name="send-to" options={{ headerShown: false }} />
-        <Stack.Screen name="reply" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="dark" />
-    </>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <PaperProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="prompts" options={{ headerShown: false }} />
+          <Stack.Screen name="recording" options={{ headerShown: false }} />
+          <Stack.Screen name="send-to" options={{ headerShown: false }} />
+          <Stack.Screen name="reply" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="dark" />
+      </PaperProvider>
+    </GestureHandlerRootView>
   );
 }
