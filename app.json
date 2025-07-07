@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.boltexponativewind"
     },
     "web": {
       "bundler": "metro",
@@ -21,9 +22,13 @@
       "expo-font",
       "expo-web-browser",
       "expo-video"
+
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "android": {
+      "package": "com.anonymous.boltexponativewind"
     }
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { WaffleGroup } from '@/types';
+import LockIcon from './LockIcon';
 
 interface GroupSelectorProps {
   groups: WaffleGroup[];
@@ -37,25 +38,19 @@ export default function GroupSelector({ groups, selectedGroupId, onSelectGroup }
             style={[
               styles.groupButton,
               { 
-                backgroundColor: selectedGroupId === group.id ? '#FFD700' : group.color,
-                opacity: group.isUnlocked ? 1 : 0.5,
+                backgroundColor: !group.isUnlocked ? '#E0E0E0' : (selectedGroupId === group.id ? '#FFD700' : group.color),
               }
             ]}
             onPress={() => group.isUnlocked && onSelectGroup(group.id)}
           >
             <Text style={[
               styles.groupLetter,
-              { color: selectedGroupId === group.id ? '#1B365D' : '#FFF' }
+              { color: !group.isUnlocked ? '#9E9E9E' : (selectedGroupId === group.id ? '#1B365D' : '#FFF') }
             ]}>
               {group.letter}
             </Text>
             {group.hasNewContent && group.isUnlocked && (
               <View style={styles.newContentIndicator} />
-            )}
-            {!group.isUnlocked && (
-              <View style={styles.lockOverlay}>
-                <Text style={styles.lockText}>🔒</Text>
-              </View>
             )}
           </TouchableOpacity>
         ))}
@@ -98,19 +93,5 @@ const styles = StyleSheet.create({
     height: 12,
     borderRadius: 6,
     backgroundColor: '#FF6B6B',
-  },
-  lockOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  lockText: {
-    fontSize: 16,
   },
 });

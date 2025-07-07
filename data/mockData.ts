@@ -9,6 +9,7 @@ export const mockGroups: WaffleGroup[] = [
     members: ['user1', 'user2', 'user3'],
     hasNewContent: true,
     isUnlocked: true,
+    type: 'group',
   },
   {
     id: '2',
@@ -18,6 +19,7 @@ export const mockGroups: WaffleGroup[] = [
     members: ['user4', 'user5'],
     hasNewContent: false,
     isUnlocked: false,
+    type: '1on1',
   },
   {
     id: '3',
@@ -27,6 +29,7 @@ export const mockGroups: WaffleGroup[] = [
     members: ['user6', 'user7', 'user8'],
     hasNewContent: true,
     isUnlocked: true,
+    type: 'group',
   },
   {
     id: '4',
@@ -36,6 +39,7 @@ export const mockGroups: WaffleGroup[] = [
     members: ['user9', 'user10'],
     hasNewContent: false,
     isUnlocked: false,
+    type: '1on1',
   },
 ];
 

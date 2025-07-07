@@ -6,6 +6,7 @@ export interface WaffleGroup {
   members: string[];
   hasNewContent: boolean;
   isUnlocked: boolean;
+  type: 'group' | '1on1';
 }
 
 export interface WaffleVideo {
